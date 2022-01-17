@@ -1,0 +1,52 @@
+<html xmlns:th="http://https://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>Signin Template for Bootstrap</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sign-in/">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/bootstrap-min.css}">
+
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/login.css}">
+</head>
+
+<body class="text-center">
+
+<!-- Background image -->
+<div
+        class="bg-image"
+        th:src="@{~/images/bg.jpg}"
+        style="height: 100vh;"></div>
+<!-- Background image -->
+
+
+<div class="card mb-4 box-shadow shadow p-4 mb-3 bg-white rounded">
+    <form class="form-signin" th:action="@{/login}" method="post">
+        <img class="mb-4" th:src="@{~/images/logo.jpg}" alt="" width="72" height="72">
+
+        <h1 class="h3 mb-3 font-weight-normal">Logar usuário</h1>
+        <div th:if="${message != null}" th:text="${message}" class="alert alert-danger" role="alert"></div>
+
+        <label for="userEmail" >Email</label>
+        <input type="text" id="userEmail" name="username" class="form-control" placeholder="Email address" required="" autofocus="">
+        <label for="inputPassword">Senha</label>
+        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required="">
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+        <a class="link" th:href="@{/registrar}">Registrar >></a>
+    </form>
+</div>
+
+
+
+</body>
+</html>

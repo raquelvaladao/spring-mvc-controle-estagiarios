@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://https://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout.html}">
+
+<div layout:fragment="content">
+
+    <main role="main">
+        <link rel="stylesheet" th:href="@{~/css/hover.css}">
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h2 class="jumbotron-heading">
+                    <div>Olá, <span sec:authentication="name">Usuário.</span></div>
+                </h2>
+                <p class="lead text-muted"> Nesse site você tem acesso à dailys,
+                    lista de starters e relatório se for admin
+                    e às dailys se for scrum.</span>
+                </p>
+            </div>
+        </section>
+        <div class="alert alert-primary" th:if="${message != null}" th:text="${message}" sec:authorize="hasRole('ROLE_ADMIN')"></div>
+
+
+        <div class="album py-5 bg-light">
+            <div class="container">
+
+                <div class="row d-flex justify-content-center" >
+                    <div class="col-md-4" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <div class="card mb-4 box-shadow shadow p-4 mb-3 bg-white rounded"  role="button">
+                            <img th:src="@{~/images/cadastro.svg}"
+                                 class="card-img-top"
+                                 data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail"
+                                 alt="Thumbnail [100%x225]"
+                                 style="height: 225px; width: 100%; display: block;"
+                                 data-holder-rendered="true"
+                            />
+
+                            <div class="card-body">
+                                <h3 class="card-title text-center">Cadastrar</h3>
+                                <a th:href="@{/starters/new}" class="stretched-link"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4 box-shadow shadow p-4 mb-3 bg-white rounded">
+                            <img th:src="@{~/images/dailys.svg}"
+                                 class="card-img-top"
+                                 data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail"
+                                 alt="Thumbnail [100%x225]"
+                                 style="height: 225px; width: 100%; display: block;"
+                                 data-holder-rendered="true"
+                            />
+                            <div class="card-body">
+                                <h3 class="card-title text-center">Dailys</h3>
+                                <a th:href="@{/dailys}" class="stretched-link"></a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <div class="card mb-4 box-shadow shadow p-4 mb-3 bg-white rounded">
+                            <img th:src="@{~/images/notas.svg}"
+                                 class="card-img-top"
+                                 data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail"
+                                 alt="Thumbnail [100%x225]"
+                                 style="height: 225px; width: 100%; display: block;"
+                                 data-holder-rendered="true"
+                            />
+                            <div class="card-body">
+                                <h4 class="card-title text-center">Baixar relatório</h4>
+                                <a th:href="@{/projetos/relatorio/export/pdf}" class="stretched-link"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+        <div class="modal fade in" tabindex="-1" id="myModal"
+             th:if="${message != null}"
+             sec:authorize="!hasRole('ROLE_ADMIN')">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Bem-vindo</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p th:text="${message}">SCRUM MSG</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(window).on('load', function() {
+                $('#myModal').modal({backdrop: 'static', keyboard: false});
+                $('#myModal').modal('show');
+            });
+        </script>
+
+    </main>
+
+</div>
+
+
+</html>

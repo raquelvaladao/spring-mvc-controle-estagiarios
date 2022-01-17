@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://https://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<meta charset="UTF-8">
+<title>Cadastrar starter</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+<div layout:fragment="content">
+
+  <div class="alert alert-primary" th:if="${message != null}" th:text="${message}"></div>
+
+  <div class="container d-flex justify-content-center">
+    <div class="card mb-5 w-50">
+      <div class="card-header">
+        <p class="text-success">Starter</p>
+      </div>
+      <div class="card-body">
+        <form method="POST" th:object="${starter}" th:action="@{/starters/edit}">
+          <input type="hidden" th:field="*{id}"></input>
+          <div class="form-group">
+            <!-- Nome input -->
+            <div class="form-outline mb-4">
+              <label class="form-label" for="name">Nome:</label>
+              <input type="text" id="name" class="form-control" required th:field="*{nome}"/>
+              <div class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+            </div>
+
+            <!-- 4letras input -->
+            <div class="form-outline mb-4">
+              <label class="form-label" for="letras">4 letras:</label>
+              <input type="text" id="letras" class="form-control" required th:field="*{letras}"/>
+              <div class="text-danger" th:if="${#fields.hasErrors('letras')}" th:errors="*{letras}"></div>
+            </div>
+
+            <!-- Grupo input -->
+            <div class="form-outline mb-4">
+              <label class="form-label" for="grupoInput">Grupo:</label>
+              <select id="grupoInput" class="form-select" th:field="*{grupoStarters}" required>
+                <option th:each="grupo: ${gruposList}" th:value="${grupo.id}" th:text="${grupo.id}"></option>
+              </select>
+              <div class="text-danger" th:if="${#fields.hasErrors('grupoStarters')}" th:errors="*{grupoStarters}"></div>
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-success btn-block">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div layout:fragment="scripts">
+  <script th:src="@{~/js/datepicker.js}">
+
+  </script>
+</div>
+
+</html>

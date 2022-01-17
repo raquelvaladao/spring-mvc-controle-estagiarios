@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://https://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout.html}">
+<meta charset="UTF-8">
+<title>Dailys</title>
+
+
+<div layout:fragment="content">
+  <!--    TIMELINE-->
+  <link rel="stylesheet" th:href="@{~/css/timeline.css}">
+
+
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h2 class="jumbotron-heading">
+        <div>Olá, <span sec:authentication="name">Usuário.</span></div>
+      </h2>
+      <div th:if="${usuario.grupo != null}" class="lead text-muted" sec:authorize="!hasRole('ROLE_ADMIN')">
+        Você está no grupo de ID <span th:text="${usuario.grupo.id}"></span>.
+        Abaixo estão os membros do seu grupo.
+      </div>
+
+      <div class="lead text-muted" sec:authorize="hasRole('ROLE_ADMIN')">
+        Você tem acesso às dailys de todos os starters.
+      </div>
+    </div>
+  </section>
+
+  <div class="row d-flex justify-content-center mt-70 mb-70">
+    <div class="col-md-6">
+      <div class="main-card mb-3 card" th:each="starter: ${starters}">
+        <div   class="card-body">
+
+          <div class="container d-flex justify-content-center">
+            <div class="col-md-4 ">
+              <img th:if="${!#strings.isEmpty(starter.foto)}"
+                   class="rounded-circle" th:src="@{${starter.fotoImagePath}}"
+                   width="60" height="60">
+              <img th:if="${#strings.isEmpty(starter.foto)}"
+                   class="rounded-circle" th:src="@{~/images/placeholder.png}"
+                   width="60" height="60">
+              <h5 class="card-title" th:text="${starter.nome}">Nome starter</h5>
+              <a th:href="@{/dailys/new/(id=${starter.id})}" class="btn btn-primary">Criar daily</a>
+            </div>
+          </div>
+
+          <div class="vertical-timeline vertical-timeline--animate vertical-timeline--one-column">
+
+            <!--DIVS DE CADA DAILY DE UM ÚNICO STARTER-->
+            <div th:each="daily: ${starter.dailies}">
+
+              <div class="vertical-timeline-item vertical-timeline-element">
+                <div>
+                  <span th:if="${daily.presenca}" class="vertical-timeline-element-icon bounce-in">
+                    <div display="flex" class="Box-nv15kw-0 oiWXk">
+                      <svg aria-hidden="true" role="img" class="StyledOcticon-uhnt7w-0 fhALhh" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" style="display: inline-block; user-select: none; vertical-align: text-bottom; overflow: visible;"><path fill-rule="evenodd" d="M8 16A8 8 0 108 0a8 8 0 000 16zm3.78-9.72a.75.75 0 00-1.06-1.06L6.75 9.19 5.28 7.72a.75.75 0 00-1.06 1.06l2 2a.75.75 0 001.06 0l4.5-4.5z"></path></svg>
+                    </div>
+                  </span>
+
+                  <span th:if="${!daily.presenca}" class="vertical-timeline-element-icon bounce-in">
+                    <div display="flex" class="Box-nv15kw-0 oiWXk"><svg aria-hidden="true" role="img" class="StyledOcticon-uhnt7w-0 fAEpEt" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" style="display: inline-block; user-select: none; vertical-align: text-bottom; overflow: visible;"><path fill-rule="evenodd" d="M2.343 13.657A8 8 0 1113.657 2.343 8 8 0 012.343 13.657zM6.03 4.97a.75.75 0 00-1.06 1.06L6.94 8 4.97 9.97a.75.75 0 101.06 1.06L8 9.06l1.97 1.97a.75.75 0 101.06-1.06L9.06 8l1.97-1.97a.75.75 0 10-1.06-1.06L8 6.94 6.03 4.97z"></path></svg></div>
+                  </span>
+
+                  <div class="vertical-timeline-element-content bounce-in">
+
+                    <div class="row">
+                      <div class="col-md-2">
+                        <h4 class="timeline-title" th:text="DAILY">DAILY</h4>
+                      </div>
+                      <div class="col-md-1 ">
+                        <a th:href="@{/dailys/edit(id=${daily.id})}" type="button" class="text-decoration-none link-secondary">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/></svg>
+                        </a>
+                      </div>
+
+                      <div class="col-md-1 ">
+                        <a th:href="@{/dailys/delete(id=${daily.id})}" type="button" class="text-decoration-none link-secondary">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+
+                    <div th:if="${daily.presenca}">
+                      <strong>Feito:</strong>
+                      <p th:text="${daily.feito}">FEITO</p>
+
+                      <strong>Fazendo:</strong>
+                      <p th:text="${daily.fazendo}">FAZENDO</p>
+
+                      <strong>Impedimentos:</strong>
+                      <p th:text="${daily.impedimentos}">IMPEDIMENTOS</p>
+                    </div>
+
+                    <div th:if="${!daily.presenca}">
+                      <strong>Status:</strong>
+                      <p>Ausente.</p>
+                    </div>
+
+                    <span th:text="${#dates.format(daily.data, 'dd/MM/yyyy')}" class="vertical-timeline-element-date">9:30 AM</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div th:if="${#lists.isEmpty(starters)}" class="container card d-flex justify-content-center text-center" style="width: 40rem;">
+    <h3 class="text-center" sec:authorize="!hasRole('ROLE_ADMIN')">Lista vazia. Seu admin ainda não pôs starters no seu grupo.</h3>
+    <h3 class="text-center" sec:authorize="hasRole('ROLE_ADMIN')">Lista vazia. Nenhum starter adicionado.</h3>
+    <img style="height: 400px; width: 100%;" th:src="@{~/images/empty.svg}"/>
+  </div>
+
+</div>
+</html>

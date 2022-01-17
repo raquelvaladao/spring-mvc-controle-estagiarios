@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://https://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<meta charset="UTF-8">
+<title>Cadastrar grupo</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+<div layout:fragment="content">
+
+    <div class="alert alert-primary" th:if="${message != null}" th:text="${message}"></div>
+
+    <div class="container d-flex justify-content-center">
+        <div class="card mb-5 w-50">
+            <div class="card-header">
+                <p class="text-success">Grupo</p>
+            </div>
+            <div class="card-body">
+                <form method="post" th:object="${grupo}" th:action="@{/grupos/edit}">
+                    <input type="hidden" th:field="*{id}"></input>
+                    <div class="form-group">
+
+                        <!-- Tecnologia input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="tipoInput">Tecnologia:</label>
+                            <select id="tipoInput" class="form-select" th:field="*{tecnologia}"
+                                    th:classappend="${not #lists.isEmpty(#fields.errors('tecnologia'))} ? is-invalid" required>
+                                <option th:each="tecnologia: ${tecnologiasList}" th:value="${tecnologia.id}" th:text="${tecnologia.nome.nome}"></option>
+                            </select>
+                            <div class="invalid-feedback">
+                                <p th:each="error: ${#fields.errors('tecnologia')}" th:text="${error}">Invalid data</p>
+                            </div>
+                        </div>
+
+                        <!-- Módulo input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="modInput">Módulo:</label>
+                            <select id="modInput" class="form-select" th:field="*{modulo}"
+                                     th:classappend="${not #lists.isEmpty(#fields.errors('modulo'))} ? is-invalid" required>
+                                <option th:each="modulo: ${modulosList}" th:value="${modulo.id}" th:text="${modulo.nome}"></option>
+                            </select>
+                            <div class="invalid-feedback">
+                                <p th:each="error: ${#fields.errors('modulo')}" th:text="${error}">Invalid data</p>
+                            </div>
+                        </div>
+
+                        <!-- Scrums input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="modInput">Scrum Master:</label>
+                            <select id="scrumInput" class="form-select" th:field="*{scrumMaster}"
+                                    th:classappend="${not #lists.isEmpty(#fields.errors('scrumMaster'))} ? is-invalid" required>
+                                <option th:value="null" th:if="${#lists.isEmpty(usuariosList)}" selected>Todos os scrums ocupados ou sem scrums</option>
+                                <option th:each="scrum: ${usuariosList}" th:value="${scrum.id}" th:text="${scrum.username}"></option>
+                            </select>
+
+                            <div class="invalid-feedback">
+                                <p th:each="error: ${#fields.errors('scrumMaster')}" th:text="${error}">Invalid data</p>
+                            </div>
+
+                        </div>
+
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-success btn-block">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div layout:fragment="scripts">
+    <script th:src="@{~/js/datepicker.js}">
+
+    </script>
+</div>
+
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://https://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<meta charset="UTF-8">
+<title>Cadastrar animal</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+
+<div layout:fragment="content">
+
+    <div class="alert alert-primary" th:if="${message != null}" th:text="${message}"></div>
+
+    <div class="container d-flex justify-content-center">
+        <div class="card mb-5 w-50">
+            <div class="card-header">
+                <p class="text-success">Daily</p>
+            </div>
+            <div class="card-body">
+                <form method="POST" th:object="${daily}" th:action="@{/dailys/new}">
+                    <input type="hidden" th:field="*{id}"></input>
+                    <input type="hidden" th:field="*{starter}"/>
+                    <div class="form-group">
+                        <!-- Feito input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="name">Feito:</label>
+                            <input type="text" id="name" class="form-control" required th:field="*{feito}"
+                                   th:classappend="${not #lists.isEmpty(#fields.errors('feito'))} ? is-invalid"/>
+                            <div class="invalid-feedback">
+                                <p th:each="error: ${#fields.errors('feito')}" th:text="${error}">Invalid data</p>
+                            </div>
+                        </div>
+
+                        <!-- Fazendo input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="fazendo">Fazendo:</label>
+                            <input type="text" id="fazendo" class="form-control" required th:field="*{fazendo}"
+                                   th:classappend="${not #lists.isEmpty(#fields.errors('fazendo'))} ? is-invalid"/>
+                            <div class="invalid-feedback">
+                                <p th:each="error: ${#fields.errors('fazendo')}" th:text="${error}">Invalid data</p>
+                            </div>
+                        </div>
+
+                        <!-- Impedimentos input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="impedimentos">Impedimentos:</label>
+                            <input type="text" id="impedimentos" class="form-control" required th:field="*{impedimentos}"
+                                   th:classappend="${not #lists.isEmpty(#fields.errors('impedimentos'))} ? is-invalid"/>
+                            <div class="invalid-feedback">
+                                <p th:each="error: ${#fields.errors('impedimentos')}" th:text="${error}">Invalid data</p>
+                            </div>
+                        </div>
+
+                        <!-- data input -->
+                        <label class="form-label">Data:</label>
+                        <div class="input-group mb-4">
+                            <div class="input-group-prepend">
+                                <label for="_data" class="input-group-text" id="igroup">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                    </svg>
+                                </label>
+                            </div>
+                            <input aria-label="Small"
+                                   aria-describedby="igroup"
+                                   class="form-control"
+                                   type="text"
+                                   id="_data"
+                                   th:placeholder="*{data}"
+                                   autocomplete="off"/>
+                            <input type="hidden" th:field="*{data}" th:classappend="${not #lists.isEmpty(#fields.errors('data'))} ? is-invalid"/>
+                            <div class="invalid-feedback">
+                                <p th:each="error: ${#fields.errors('data')}" th:text="${error}">Invalid data</p>
+                            </div>
+                        </div >
+
+                    <!--    Presenca input                    -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio"
+                                   name="flexRadioDefault"
+                                   id="flexRadioDefault1"
+                                   th:value="1"
+                                   th:field="*{presenca}"
+                            >
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Presente
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio"
+                                   th:value="0"
+                                   th:field="*{presenca}"
+                                   name="flexRadioDefault"
+                                   id="flexRadioDefault2" checked>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Ausente
+                            </label>
+                        </div>
+                        <div class="text-danger" th:if="${#fields.hasErrors('presenca')}" th:errors="*{presenca}"></div >
+
+
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-success btn-block">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div layout:fragment="scripts">
+    <script th:src="@{~/js/datepicker.js}">
+
+    </script>
+</div>
+
+</html>

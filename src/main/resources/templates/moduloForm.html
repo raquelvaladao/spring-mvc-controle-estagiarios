@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://https://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<meta charset="UTF-8">
+<title>Cadastrar módulo</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+<div layout:fragment="content">
+
+    <div class="alert alert-primary" th:if="${message != null}" th:text="${message}"></div>
+
+    <div class="container d-flex justify-content-center">
+        <div class="card mb-5 w-50">
+            <div class="card-header">
+                <p class="text-success">Módulo</p>
+            </div>
+            <div class="card-body">
+                <form method="POST" th:object="${modulo}" th:action="@{/modulos/edit}">
+                    <input type="hidden" th:field="*{id}"></input>
+                    <div class="form-group">
+                        <!-- Nome input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="name">Nome:</label>
+                            <input type="text" id="name" class="form-control" required th:field="*{nome}"
+                                   th:classappend="${not #lists.isEmpty(#fields.errors('nome'))} ? is-invalid"/>
+                            <div class="invalid-feedback">
+                                <p th:each="error: ${#fields.errors('nome')}" th:text="${error}">Invalid data</p>
+                            </div>
+                        </div>
+
+                        <!-- Programa input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="modInput">Programa Starter:</label>
+                            <select id="modInput" class="form-select" th:field="*{programaStarter}" required>
+                                <option th:each="programa: ${programasList}" th:value="${programa.id}" th:text="${programa.nome}"></option>
+                            </select>
+                            <div class="text-danger" th:if="${#fields.hasErrors('programaStarter')}" th:errors="*{programaStarter}"></div>
+                        </div>
+
+
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-success btn-block">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div layout:fragment="scripts">
+    <script th:src="@{~/js/datepicker.js}">
+
+    </script>
+</div>
+
+</html>

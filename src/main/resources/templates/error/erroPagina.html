@@ -1,0 +1,41 @@
+<html xmlns:th="http://https://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+
+    <title>Erro</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sign-in/">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/bootstrap-min.css}">
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/login.css}">
+</head>
+
+<body class="text-center">
+
+<div class="card mb-4 box-shadow shadow p-4 mb-3 bg-white rounded">
+    <div th:if="${message == '404'}">
+        <h3 class="text-center">Esse caminho não existe. Volte pro início...</h3>
+        <img  style="height: 400px; width: 100%;" th:src="@{~/images/404erro.svg}"/>
+    </div>
+    <div th:if="${message == '403'}">
+        <h3 class="text-center">Você não é permitido aqui. Volte pro início...</h3>
+        <img  style="height: 400px; width: 100%;" th:src="@{~/images/403erro.svg}"/>
+    </div>
+    <div th:if="${message == '500'}">
+        <h3 class="text-center">Tivemos um problema interno. Volte pro início...</h3>
+        <img  style="height: 400px; width: 100%;" th:src="@{~/images/500erro.svg}"/>
+    </div>
+
+    <a class="btn btn-primary btn-lg" th:href="@{/home}" aria-current="page">Voltar para início</a>
+</div>
+
+</body>
+</html>
